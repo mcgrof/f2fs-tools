@@ -386,6 +386,7 @@ struct device_info {
 	u_int32_t nr_zones;
 	u_int32_t nr_rnd_zones;
 	size_t zone_blocks;
+	uint64_t chunk_sectors;
 	size_t *zone_cap_blocks;
 };
 

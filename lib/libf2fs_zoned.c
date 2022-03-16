@@ -185,12 +185,12 @@ int f2fs_get_zone_blocks(int i)
 	/* Get zone size */
 	dev->zone_blocks = 0;
 
-	sectors = f2fs_get_zone_chunk_sectors(dev);
-	if (!sectors)
+	dev->chunk_sectors = f2fs_get_zone_chunk_sectors(dev);
+	if (!dev->chunk_sectors)
 		return -1;
 
-	dev->zone_blocks = sectors >> (F2FS_BLKSIZE_BITS - 9);
-	sectors = (sectors << 9) / c.sector_size;
+	dev->zone_blocks = dev->chunk_sectors >> (F2FS_BLKSIZE_BITS - 9);
+	sectors = (dev->chunk_sectors << 9) / c.sector_size;
 
 	/*
 	 * Total number of zones: there may
