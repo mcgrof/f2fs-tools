@@ -189,6 +189,7 @@ int f2fs_get_zone_blocks(int i)
 	if (!dev->chunk_sectors)
 		return -1;
 
+	dev->zone_size = dev->chunk_sectors << SECTOR_SHIFT;
 	dev->zone_blocks = dev->chunk_sectors >> (F2FS_BLKSIZE_BITS - 9);
 	sectors = (dev->chunk_sectors << 9) / c.sector_size;
 
