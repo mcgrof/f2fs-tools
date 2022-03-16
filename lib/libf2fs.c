@@ -882,6 +882,11 @@ static int open_check_fs(char *path, int flag)
 	return open(path, O_RDONLY | flag);
 }
 
+static int is_power_of_2(unsigned long n)
+{
+	return (n != 0 && ((n & (n - 1)) == 0));
+}
+
 int get_device_info(int i)
 {
 	int32_t fd = 0;
@@ -1035,6 +1040,12 @@ int get_device_info(int i)
 	}
 
 	if (dev->zoned_model != F2FS_ZONED_NONE) {
+		if (!dev->zone_size || !is_power_of_2(dev->zone_size)) {
+			MSG(0, "\tError: zoned: illegal zone size %lu (not a power of 2)\n",
+					dev->zone_size);
+			free(stat_buf);
+			return -1;
+		}
 
 		/* Get the number of blocks per zones */
 		if (f2fs_get_zone_blocks(i)) {
